@@ -1,4 +1,4 @@
-#coding=utf-8
+#coding:utf-8
 import urllib
 import urllib2
 import os
@@ -18,34 +18,49 @@ def getHtml(url):
     try:
         req = urllib2.Request(url,None,req_header)
         resp = urllib2.urlopen(req,None,req_timeout)
-        html = resp.read()
+        baseHtml = resp.read()
     except urllib2.URLError as e:
         print e.message
     except socket.timeout as e:
         print e.message
-    return html
+    return baseHtml
+
+def getUrlNum(html):
+    reg = r'<span class=\"current-comment-page\">\[(.+?)\]</span>'
+    urlre = re.compile(reg)
+    num = re.findall(urlre,html)
+    return num[0]
 
 def getImglistUrl(html):
     print 'getImglistUrl'
     reg = r'src="(.+?\.jpg|.+?\.png|.+?\.gif)"'
     image = re.compile(reg)
     imglist = set(re.findall(image,html))
-    print imglist
     return imglist
 
-def saveImage(imglist,path):
+def saveImage(imglist,path,imgNum):
     print 'saveImage'
-    x = 0
     for imgurl in imglist:
         str = imgurl[-3:]
-        urllib.urlretrieve(imgurl,path+u'\图'+'%s.%s' % (x, str))
-        x+=1
+        urllib.urlretrieve(imgurl,path+u'\图'+'%s.%s' % (imgNum, str))
+        imgNum+=1
 
 print 'begin'
+imgNum = 0
+pageNum = input("请输入下载页数:".decode('utf-8').encode('gbk'))
 path = getDocment()
-html = getHtml("http://jandan.net/pic/page-6925#comments")
-imglist = getImglistUrl(html)
-saveImage(imglist,path)
+baseHtml = getHtml("http://jandan.net/pic")
+num = int(getUrlNum(baseHtml))
+while pageNum > 0:
+    url = 'http://jandan.net/pic/page-' + str(num) + '#comments'
+    print url
+    html = getHtml(url)
+    imglist = getImglistUrl(html)
+    saveImage(imglist,path,imgNum)
+    pageNum-=1
+    num-=1
+
+
 
 
 
