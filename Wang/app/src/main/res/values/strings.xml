@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Map</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="main_activity">Map</string>
+    <string name="goWebView">goWebView</string>
+    <string name="goDragDemo">goDragDemo</string>
+    <string name="web_url">来一发</string>
+    <string name="title_activity_web_view">Web</string>
+    <string name="title_activity_drag_demo_view">Drag</string>
+</resources>

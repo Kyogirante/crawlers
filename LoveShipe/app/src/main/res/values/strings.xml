@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">LoveShape</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="drag_recycler_view">Drag and Swipe with RecyclerView</string>
+    <string name="main_activity">Love shape</string>
+    <string name="title_activity_drag_recycler_view">DragRecyclerViewActivity</string>
+</resources>

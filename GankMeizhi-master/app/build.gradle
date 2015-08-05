@@ -1,0 +1,89 @@
+/*
+ * Copyright 2015 XiNGRZ <chenxingyu92@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "23.0.0 rc3"
+
+    defaultConfig {
+        applicationId "me.xingrz.gankmeizhi"
+
+        minSdkVersion 19
+        targetSdkVersion 22
+
+        versionCode 1
+        versionName "1.0"
+
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "GitHub"]
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        output.outputFile = file("${outputFile.parent}/gkmz-${defaultConfig.versionName}-${variant.productFlavors[0].name}.apk")
+                    }
+                }
+            }
+        }
+    }
+
+    productFlavors {
+        GitHub {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "GitHub"]
+        }
+        FIR {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "FIR"]
+        }
+        Wandoujia {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "Wandoujia"]
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:cardview-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+
+    compile 'com.jakewharton:butterknife:7.0.1'
+
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
+    compile 'org.jsoup:jsoup:1.8.2'
+
+    compile 'io.realm:realm-android:0.81.1'
+
+    compile 'com.umeng.analytics:analytics:latest.integration'
+}

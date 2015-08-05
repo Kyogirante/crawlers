@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.wang.WebViewActivity">
+    <item
+        android:id="@+id/menu_web_site"
+        android:title="@string/web_url"
+        app:showAsAction="always"/>
+</menu>
